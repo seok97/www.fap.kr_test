@@ -1,12 +1,15 @@
 import React from 'react';
-import './index.css';
 import Searchheader from './Searchheader';
 import './Searchheader.css';
+import './showimg.css';
+import Showimg from './showimg';
+import './medi.css';
 
 function App() {
   return (
-  <div>
+  <div class="root_div">
     <Searchheader />
+    <Showimg />
   </div>
   );
 }
