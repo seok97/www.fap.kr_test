@@ -2,9 +2,9 @@ import React from 'react';
 
 function Showimg() {
   return (
-  <div class="images">
+  <div className="images">
     <div id="showimg">
-      <img src="./testimg.jpg" alt="idol"/>
+      <h1>개발중 페이지</h1>
     </div>
   </div>
   );

@@ -10,6 +10,8 @@ img{
     max-width: 100%;
     height: auto;
 }
+
+/*
 @media screen and (min-width:1024px){
     body{
         width: 1024px;
@@ -24,4 +26,7 @@ img{
     body{
         width: 320px;
     }
+
 }
+
+*/
