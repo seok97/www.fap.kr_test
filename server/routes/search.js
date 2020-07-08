@@ -1,11 +1,13 @@
-const cheerio = require("cheerio");
+const express = require('express');
+const router = express.Router();
 const client = require('cheerio-httpcli');
-const URL = require('url');
 
 // 구글은 이미지 src를 data uri로 base64형태로 사용하고있다. 때문에 이미지 src를 가져와 다시 디코딩 해야한다. 
 // 디코딩을 위해 crypto 모듈을 사용.
 // const crypto = require('crypto');
 
+
+var sendData = [];
 
 const log = console.log;
 var searchkeyword = encodeURI('블랙핑크');
@@ -19,7 +21,6 @@ client.fetch(url, param, function (err, $, res, body) {
         console.log("Error:", err);
         return;
     }
-    log($("a.wXeWr,.islib,.nfEiy,.mM5pbd img.rg_i,.Q4LuWd").html());
     $("a.wXeWr,.islib,.nfEiy,.mM5pbd img").each(function(idx) {
       if(idx < 40){
         var data_src = $(this).attr('data-src');
@@ -28,9 +29,9 @@ client.fetch(url, param, function (err, $, res, body) {
 
         // src = URL.resolve(url, src);
 
-        log(idx);
-        log('alt : '+alt);
-        log('data_src : ' +data_src);
+        //log(idx);
+        //log('alt : '+alt);
+        //log('data_src : ' +data_src);
         //log('src : ' +src);
       }
       
@@ -38,12 +39,15 @@ client.fetch(url, param, function (err, $, res, body) {
         var data_src = $(this).attr('data-src');
         var alt = $(this).attr('alt');
         //var src = $(this).attr('src');
-
+        sendData.push({
+          alt: alt,
+          src: data_src
+        })
         // src = URL.resolve(url, src);
 
-        log(idx);
-        log('alt : '+alt);
-        log('data_src : ' +data_src);
+        //log(idx);
+        //log('alt : '+alt);
+        //log('data_src : ' +data_src);
         //log('src : ' +src);
       }
 
@@ -51,33 +55,10 @@ client.fetch(url, param, function (err, $, res, body) {
 
 });
 
-// 참고 사이트 https://junistory.blogspot.com/2017/08/nodejs_21.html
 
+router.get('/', function(req, res, next){
+    res.send(sendData);
+    
+});
 
-/* const getHtml = async () => {
-  try {
-    return await axios.get(googlegeturl);
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-getHtml()
-  .then(html => {
-    let ulList = [];
-    const $ = cheerio.load(html.data);
-
-    const $bodyList = $("div#islmp div#islrg div.islrc").children('div');
-//body > pre
-    $bodyList.each(function(i) {
-      
-      ulList[i] = {
-          src: $(this).find('img').attr('src')
-      };
-    });
-
-    const data = ulList.filter(n => n.src);
-    return data;
-  })
-  .then(res => log(res));
- */
+module.exports = router;

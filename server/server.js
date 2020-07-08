@@ -3,12 +3,13 @@ const app = express();
 const cors = require('cors');
 
 const indexRouter = require('./routes/index');
-const userRouter = require('./routes/users');
-
+const searchRouter = require('./routes/search');
+const searchdataRouter = require('./routes/searchdata');
 
 app.use(cors());
-app.use(indexRouter);
-app.use('/users',userRouter);
+app.use('/index',indexRouter);
+app.use('/',searchRouter);
+app.use('/ss',searchdataRouter);
 
 const port = 3002;
 

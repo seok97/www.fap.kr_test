@@ -4,7 +4,7 @@ function Showimg() {
   return (
   <div className="images">
     <div id="showimg">
-      <h1>개발중 페이지</h1>
+      <h1>개발중 메인 페이지</h1>
     </div>
   </div>
   );
