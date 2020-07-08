@@ -1,13 +1,60 @@
-const axios = require("axios");
 const cheerio = require("cheerio");
+const client = require('cheerio-httpcli');
+const URL = require('url');
 
-// axios를 활용해 AJAX로 HTML 문서를 가져오는 함수 구현
+// 구글은 이미지 src를 data uri로 base64형태로 사용하고있다. 때문에 이미지 src를 가져와 다시 디코딩 해야한다. 
+// 디코딩을 위해 crypto 모듈을 사용.
+// const crypto = require('crypto');
+
 const log = console.log;
+var searchkeyword = encodeURI('블랙핑크');
+var googlegeturl = 'https://www.google.co.kr/search?hl=ko&tbm=isch&source=hp&biw=1920&bih=969&ei=PwkEX73EM4GQr7wP3emskA4&q='+searchkeyword+'&oq='+searchkeyword+'&gs_lcp=CgNpbWcQDDIFCAAQsQMyAggAMgIIADICCAAyAggAMgIIADICCAAyAggAMgIIADICCABQAFgAYK5KaABwAHgAgAFYiAFYkgEBMZgBAKoBC2d3cy13aXotaW1n&sclient=img&ved=0ahUKEwj934mxtbrqAhUByIsBHd00C-IQ4dUDCAc';
 
 
-const getHtml = async () => {
+var url = "http://www.google.com/search?q=" + searchkeyword + "&tbm=isch";
+var param = {};
+
+client.fetch(url, param, function (err, $, res, body) {
+    if (err) {
+        console.log("Error:", err);
+        return;
+    }
+    log($("a.wXeWr,.islib,.nfEiy,.mM5pbd img.rg_i,.Q4LuWd").html());
+    $("a.wXeWr,.islib,.nfEiy,.mM5pbd img").each(function(idx) {
+      if(idx < 40){
+        var data_src = $(this).attr('data-src');
+        var alt = $(this).attr('alt');
+        //var src = $(this).attr('src');
+
+        // src = URL.resolve(url, src);
+
+        log(idx);
+        log('alt : '+alt);
+        log('data_src : ' +data_src);
+        //log('src : ' +src);
+      }
+      
+      if(idx > 40 && idx%2 != 0){
+        var data_src = $(this).attr('data-src');
+        var alt = $(this).attr('alt');
+        //var src = $(this).attr('src');
+
+        // src = URL.resolve(url, src);
+
+        log(idx);
+        log('alt : '+alt);
+        log('data_src : ' +data_src);
+        //log('src : ' +src);
+      }
+
+});
+
+});
+
+
+/* const getHtml = async () => {
   try {
-    return await axios.get("https://customsearch.googleapis.com/customsearch/v1?cr=countryKR&cx=003179116642024206801%3Axxjwiwpmroa&highRange=5&imgSize=MEDIUM&lr=lang_ko&num=5&q=%ED%94%BC%EC%B9%B4%EC%B8%84&searchType=image&key=AIzaSyBpbYnG2Lmg7QZbSGuF98eLPhuST-BN3y8");
+    return await axios.get(googlegeturl);
   } catch (error) {
     console.error(error);
   }
@@ -18,28 +65,17 @@ getHtml()
     let ulList = [];
     const $ = cheerio.load(html.data);
 
-    const $bodyList = $("#pre");
+    const $bodyList = $("div#islmp div#islrg div.islrc").children('div');
 //body > pre
-    $bodyList.each(function(i, elem) {
+    $bodyList.each(function(i) {
+      
       ulList[i] = {
-          title: $(this).find('a h4').text()
+          src: $(this).find('img').attr('src')
       };
     });
 
-    const data = ulList.filter(n => n.title);
+    const data = ulList.filter(n => n.src);
     return data;
   })
   .then(res => log(res));
-
-
-  /*
-curl \
-  'https://customsearch.googleapis.com/customsearch/v1?c2coff=pika&cr=countryKR&cx=www-fap-kr-test&highRange=5&lr=lang_ko&num=5&searchType=image&key=AIzaSyBpbYnG2Lmg7QZbSGuF98eLPhuST-BN3y8'
-  
-
-curl \
-https://customsearch.googleapis.com/customsearch/v1?cr=countryKR&cx=003179116642024206801%3Axxjwiwpmroa&highRange=5&imgSize=MEDIUM&lr=lang_ko&num=5&q=%ED%94%BC%EC%B9%B4%EC%B8%84&searchType=image&key=AIzaSyBpbYnG2Lmg7QZbSGuF98eLPhuST-BN3y8 \
-
-
-  
-  */
+ */
