@@ -9,7 +9,7 @@ const searchdataRouter = require('./routes/searchdata');
 app.use(cors());
 app.use('/index',indexRouter);
 app.use('/',searchRouter);
-app.use('/ss',searchdataRouter);
+app.use('/search',searchdataRouter);
 
 const port = 3002;
 

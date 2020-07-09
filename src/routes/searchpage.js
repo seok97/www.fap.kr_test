@@ -16,7 +16,21 @@ var reqURL = 'https://customsearch.googleapis.com/customsearch/v1?cr=countryKR&c
 /////////////////////////////////////////////////////////////////////////
  */
 
-
+function Createimg(props){
+var imgList;
+if(props.data[0] === undefined) {
+  console.log('not end')
+}else{
+  imgList = props.data.map((val) => 
+    <img alt={val.alt} src={val.src}></img>
+  );
+}
+  return (
+  <div>
+    {imgList}
+  </div>
+  );
+}
 
 class Searchpage extends Component {
 
@@ -29,23 +43,20 @@ class Searchpage extends Component {
   }
 
   componentDidMount(){
-    fetch('http://localhost:3002/')
+    fetch('http://localhost:3002/search/')
     .then(res => { return res.json();})
     .then(res => {
       const { data } = this.state;
       res.map((val,idx)=>{
-        // console.log('idx : '+ idx + ' val : ' + val.alt);
         this.setState(
-          { data: this.state.data.concat({idx: idx, alt: val.alt}) }
-        )
+          { data: this.state.data.concat({idx: idx, alt: val.alt, src: val.src}) }
+        );
       });
-      // console.log(this.state.data);
-    });
+      
+    })
+    .catch(e=> console.log(e));
   } 
 
-  createimg(){
-    
-  }
 
 ////////////////////////////////////////////////////////////
 
@@ -81,8 +92,11 @@ class Searchpage extends Component {
   <div className="searchpage_root">
     <div id="image_test">
       <h1>this.state.data[0] : </h1>
-      {console.log(this.state.data)}
-    </div>
+      { 
+        (this.state.data != undefined) ? 
+        <Createimg data = {this.state.data} /> : <h1>로딩중</h1>
+      }
+      </div>
   </div>
   );
   }
