@@ -3,7 +3,7 @@ import Searchheader from './routes/Searchheader';
 import './routes/Searchheader.css';
 import './routes/showimg.css';
 import Showimg from './routes/showimg';
-import './medi.css';
+// import './medi.css'; // 반응형
 import './routes/searchpage.css';
 import Searchpage from './routes/searchpage';
 import './App.css';

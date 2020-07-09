@@ -25,17 +25,27 @@ class Searchpage extends Component {
 
    constructor(props){
     super(props);
-    this.state = { data: null}
+    this.state = { data: [] }
   }
 
   componentDidMount(){
     fetch('http://localhost:3002/')
-    .then(res => { console.log(res); return res.json();})
-    .then(res => { 
-      console.log('워지');
+    .then(res => { return res.json();})
+    .then(res => {
+      const { data } = this.state;
+      res.map((val,idx)=>{
+        // console.log('idx : '+ idx + ' val : ' + val.alt);
+        this.setState(
+          { data: this.state.data.concat({idx: idx, alt: val.alt}) }
+        )
+      });
+      // console.log(this.state.data);
     });
   } 
 
+  createimg(){
+    
+  }
 
 ////////////////////////////////////////////////////////////
 
@@ -70,8 +80,8 @@ class Searchpage extends Component {
   return (
   <div className="searchpage_root">
     <div id="image_test">
-      <h1>받은 값 : {}</h1>
-      {/* <img alt={this.state.data[0].alt} src={this.state.data[0].src}></img> */}
+      <h1>this.state.data[0] : </h1>
+      {console.log(this.state.data)}
     </div>
   </div>
   );
