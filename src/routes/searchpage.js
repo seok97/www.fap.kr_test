@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "./imglist.css";
 const fetch = require("node-fetch");
 
 /////////////////////google custom search api
@@ -20,7 +21,9 @@ function Createimg(props) {
   if (props.data[0] === undefined) {
     console.log("not end");
   } else {
-    imgList = props.data.map((val) => <img alt={val.alt} src={val.src}></img>);
+    imgList = props.data.map((val) => (
+      <img alt={val.alt} src={val.src} className="imglist"></img>
+    ));
   }
   return <div>{imgList}</div>;
 }
@@ -84,7 +87,6 @@ class Searchpage extends Component {
     return (
       <div className="searchpage_root">
         <div id="image_test">
-          <h1>this.state.data[0] : </h1>
           {this.state.data != undefined ? (
             <Createimg data={this.state.data} />
           ) : (
